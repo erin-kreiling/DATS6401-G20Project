@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Other Spending</title>
+	<link rel="stylesheet" type="text/css" href="style/style.css" />
+	<script type="text/javascript"
+			src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">google.charts.load('current', {'packages':['bar', 'corechart', 'table']});
+	</script>
+	</head>
+<body>
+	<div id="main">
+		<div id="header">
+			<div id="logo">
+			</div><!--logo-->
+			<div id="menubar">
+				<ul id="menu">
+					<li class="selected"><a href="index.html">Home</a></li>
+					<li><a href="introplots.html">Introductory Plots</a></li>
+					<li><a href="gdpspending.html">Comparing GDP and Spending</a></li>
+					<li><a href="otherspending.html">Healthcare, Education, and Military</a></li>
+					<li><a href="analysis.html">Overall Analysis</a></li>
+				</ul>
+			</div><!--menubar-->
+		</div><!-- header-->
+
+		<div id="content">
+			<!--insert page content here-->
+			<h1>How much money does each G20 country spend on military, healthcare, and education, as compared to their overall Gross Domestic Product (GDP)?</h1>
+			
+			<h2>Healthcare vs Military vs Education Spending (2008-2015)</h2>
+				<div id="all_spending_div"
+					style="width:900px; height:500px"></div>
+			<h2>Military Spending Over Time (2008-2015)</h2>
+				<div id="fastest_growing_mil_div"
+					style="width:900px; height:500px"></div>
+
+			<h2>Healthcare Spending Over Time (2008-2015)</h2>
+				<div id="fastest_growing_health_div"
+					style="width:900px; height:500px"></div>
+					
+			<h2>Education Spending Over Time (2008-2015)</h2>
+				<div id="fastest_growing_edu_div"
+					style="width:900px; height:500px"></div>
+		</div><!--content-->
+		<div id="content_footer">
+			<div id="footer">
+				&copy; <script>var d=new Date(); document.write(d.getFullYear());</script>
+				| <a href="#">HTML5</a> | <a href="#">CSS</a> | <a href="#">NZ</a>
+			</div><!--footer-->
+		</div><!--content_footer-->	
+	</div><!--main-->
+	
+</body>
+
+
+	
+		<script type="text/javascript">
+//load the google charts
+	google.charts.load('current', {'packages': ['corechart']});
+	
+	//load the callback function that runs when page loads
+	google.charts.setOnLoadCallback(drawAllSheets);
+
+
+	function drawAllSheets() {
+
+
+		drawSheetName('ComboData',
+					  'SELECT A,J,U,AF',
+					  AllSpendingResponseHandler);
+		drawSheetName('ComboData',
+					  'SELECT A,B,C,D,E,F,G,H,I',
+					  FastestGrowingMilResponseHandler);
+		drawSheetName('ComboData',
+					  'SELECT A,M,N,O,P,Q,R,S,T',
+					  FastestGrowingHealthResponseHandler);
+	
+		drawSheetName('ComboData',
+					  'SELECT A,X,Y,Z,AA,AB,AC,AD,AE',
+					  FastestGrowingEduResponseHandler)
+	
+	}
+
+	function drawSheetName(sheetName, query, responseHandler) {
+	
+		var queryString = encodeURIComponent(query);
+
+		var query = new google.visualization.Query(
+		'https://docs.google.com/spreadsheets/d/1rmS5m7PtsLjas26J7tv42oBmmaTNxvy32AUYSc5ObnY/gviz/tq?sheet=' +
+			 sheetName +'&headers=1&tq=' + queryString);	
+			 
+		query.send(responseHandler);
+		
+	}
+
+
+		
+	
+	
+		function AllSpendingResponseHandler(response) {
+			var data = response.getDataTable();
+			data.sort({column: 1, desc:true});
+			var options = {
+						width: 600,
+						height: 400,
+						legend: {position: 'top', maxLines: 20},
+						bar: {groupWidth: '75%'},
+						vAxis: {format: 'short'}
+			
+			};
+		
+		var chart = new google.visualization.ColumnChart(document.getElementById(
+		'all_spending_div'));
+		
+		chart.draw(data, options);
+	};
+	
+	function FastestGrowingMilResponseHandler(response) {
+			var data = response.getDataTable()
+			
+			var options = {
+						width: 600,
+						height: 400,
+					
+						
+						
+			};
+		var chart = new google.visualization.Table(document.getElementById(
+		'fastest_growing_mil_div'));
+		
+		chart.draw(data, options);
+	};
+	
+	function FastestGrowingHealthResponseHandler(response) {
+			var data = response.getDataTable();
+		
+			var options = {
+						width: 600,
+						height: 400,
+						
+			};
+		
+		var chart = new google.visualization.Table(document.getElementById(
+		'fastest_growing_health_div'));
+		
+		chart.draw(data, options);
+	};
+	
+	function FastestGrowingEduResponseHandler(response) {
+			var data = response.getDataTable();
+			
+			var options = {
+						width: 600,
+						height: 400,
+					
+						
+			};
+		
+		var chart = new google.visualization.Table(document.getElementById(
+		'fastest_growing_edu_div'));
+		
+		chart.draw(data, options);
+	};
+	
+</script>
+
+
+
+
+
+<script>
+	function showPopup(url) {
+		newWindow=window.open(url, 'name', 'height=400, width=600, top=200, left=300, resizable');
+		if (window.focus) {newWindow.focus()}
+	}
+</script>

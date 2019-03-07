@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Introductory Plots</title>
+	<link rel="stylesheet" type="text/css" href="style/style.css" />
+	<script type="text/javascript"
+			src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+	<div id="main">
+		<div id="header">
+			<div id="logo">
+			</div><!--logo-->
+			<div id="menubar">
+				<ul id="menu">
+					<li class="selected"><a href="index.html">Home</a></li>
+					<li><a href="introplots.html">Introductory Plots</a></li>
+					<li><a href="gdpspending.html">Comparing GDP and Spending</a></li>
+					<li><a href="otherspending.html">Healthcare, Education, and Military</a></li>
+					<li><a href="analysis.html">Overall Analysis</a></li>
+				</ul>
+			</div><!--menubar-->
+		</div><!-- header-->
+
+		<div id="content">
+			<!--insert page content here-->
+			<h1>How much money does each G20 country spend on military, healthcare, and education?</h1>
+			
+			<h2>Military Expenditure of G20 Countries (2008-2015)</h2>
+				<div id="military_spending_div"
+			 style="width:900px; height:500px"></div>
+			 
+			<h2>Healthcare Expenditure of G20 Countries (2008-2015)</h2>
+				<div id="healthcare_spending_div"
+			 style="width:900px; height:500px"></div>
+			 
+			<h2>Education Expenditure of G20 Countries (2008-2015)</h2>
+				<div id="education_spending_div"
+			 style="width:900px; height:500px"></div>
+		</div><!--content-->
+		<div id="content_footer">
+			<div id="footer">
+				&copy; <script>var d=new Date(); document.write(d.getFullYear());</script>
+				| <a href="#">HTML5</a> | <a href="#">CSS</a> | <a href="#">NZ</a>
+			</div><!--footer-->
+		</div><!--content_footer-->	
+	</div><!--main-->
+	
+</body>
+
+
+	
+		<script type="text/javascript">
+//load the google charts
+	google.charts.load('current', {'packages': ['corechart']});
+	
+	//load the callback function that runs when page loads
+	google.charts.setOnLoadCallback(drawAllSheets);
+
+
+	function drawAllSheets() {
+	    
+		drawSheetName('Military', 
+					  'SELECT A,B,C,D,E,F,I', 
+					  militarySpendingResponseHandler);
+	
+		drawSheetName('Healthcare',
+					  'SELECT A,Z,AA,AB,AC,AD,AE,AF,AG',
+					  healthcareSpendingResponseHandler);
+		
+		drawSheetName('Education',
+					  'SELECT A,R,S,T,U,V,W,X,Y',
+					  educationSpendingResponseHandler);
+	
+	}
+
+	function drawSheetName(sheetName, query, responseHandler) {
+	
+		var queryString = encodeURIComponent(query);
+
+		var query = new google.visualization.Query(
+		'https://docs.google.com/spreadsheets/d/1rmS5m7PtsLjas26J7tv42oBmmaTNxvy32AUYSc5ObnY/gviz/tq?sheet=' +
+			 sheetName +'&headers=1&tq=' + queryString);	
+			 
+		query.send(responseHandler);
+		
+	}
+
+
+		function militarySpendingResponseHandler(response) {
+			var data = response.getDataTable();
+			console.log('test');
+			data.sort({column:1, desc:true})
+			var options = {
+						height: 400,
+						vAxis: {title:'Spending in Billions ($)', format: 'short'},
+						hAxis: {title: 'Country'},
+						legend: 'none'
+			};
+					
+			var chart = new google.visualization.ColumnChart(
+						document.getElementById('military_spending_div'));
+			chart.draw(data,options);
+			
+			}	
+			
+			
+			
+			function healthcareSpendingResponseHandler(response) {
+			var data = response.getDataTable();
+			console.log('test');
+			data.sort({column:1, desc:true})
+			var options = {
+						height: 400,
+						vAxis: {title:'Spending in Billions ($)', format: 'short'},
+						hAxis: {title: 'Country'},
+						legend: 'none'
+			};
+					
+			var chart = new google.visualization.ColumnChart(
+						document.getElementById('healthcare_spending_div'));
+			chart.draw(data,options);
+			
+			}	
+			
+			
+		function educationSpendingResponseHandler(response) {
+				var data = response.getDataTable();
+				console.log('test');
+				data.sort({column:1, desc:true})
+				var options = {
+							height: 400,
+							vAxis: {title:'Spending in Billions ($)', format: 'short'},
+							hAxis: {title: 'Country'},
+							legend: 'none'
+				};
+						
+				var chart = new google.visualization.ColumnChart(
+							document.getElementById('education_spending_div'));
+				chart.draw(data,options);
+				
+				};
+				
+				
+</script>
+
+
+
+
+
+<script>
+	function showPopup(url) {
+		newWindow=window.open(url, 'name', 'height=400, width=600, top=200, left=300, resizable');
+		if (window.focus) {newWindow.focus()}
+	}
+</script>
